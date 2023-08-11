@@ -42,22 +42,16 @@ bst_sf* insert_bst_sf(matrix_sf *mat, bst_sf *root) {
 
 matrix_sf* find_bst_sf(char name, bst_sf *root) {
 
-    bst_sf *currNode = root;
+    if(root == NULL)
+        return NULL;
 
-    while(currNode != NULL){
-        char nodeName = currNode->mat->name;
-        if(nodeName == name)
-            return currNode->mat;
-
-        if(nodeName > name){
-            currNode = currNode->left_child;
-        }   
-        else{
-            currNode = currNode->right_child;
-        }
-    }
-
-    return NULL;
+    if(root->mat->name == name)
+        return root->mat;
+    
+    if(name > root->mat->name)
+        return find_bst_sf(name, root->right_child);
+    else
+        return find_bst_sf(name, root->left_child);
         
 }
 
@@ -80,72 +74,48 @@ void free_bst_sf(bst_sf *root) {
 
 
 matrix_sf* add_mats_sf(const matrix_sf *mat1, const matrix_sf *mat2) {
-    matrix_sf *sumMatrix = malloc(sizeof(matrix_sf) + mat1->num_rows * mat1->num_cols * sizeof(int));
+    int values[mat1->num_rows * mat1->num_cols];
 
-    sumMatrix->name = '@';
-    sumMatrix->num_rows = mat1->num_rows;
-    sumMatrix->num_cols = mat1->num_cols;
-
-    const int *arrPtr1 = mat1->values, *arrPtr2 = mat2->values; 
-    
-    int *sumPtr = sumMatrix->values, len = mat1->num_rows * mat1->num_cols;
-
-    for(int i = 0; i < len; i++){
-        sumPtr[i] = arrPtr1[i] + arrPtr2[i];
-    }
-
-    return sumMatrix;
+    for(unsigned int i = 0; i < mat1->num_rows * mat1->num_cols; i++)
+        values[i] = mat1->values[i] + mat2->values[i];
+        
+    return copy_matrix(mat1->num_rows, mat2->num_cols, values);
 }
 
 
 matrix_sf* mult_mats_sf(const matrix_sf *mat1, const matrix_sf *mat2) {
-    const int *matrixA = mat1->values, *matrixB = mat2->values; 
+    int values[mat1->num_rows * mat2->num_cols];
+    
+    unsigned int index = 0;
 
-    int lenA = mat1->num_rows * mat1->num_cols, lenB = mat2->num_rows * mat2->num_cols;
-
-    matrix_sf *product = malloc(sizeof(matrix_sf) + mat1->num_rows * mat2->num_cols * sizeof(int));
-
-    product->name = '$';
-    product->num_rows = mat1->num_rows;
-    product->num_cols = mat2->num_cols;
-
-    int *pArr = product->values, index = 0, colA = mat1->num_cols, colB = mat2->num_cols;
-
-    for(int i = 0; i < lenA; i+=colA){
-        for(int j = 0; j < colB; j++){
-            int sum = 0, r = i, c = j;
-            while(r < i + colA && c < lenB){
-                sum += matrixA[r] * matrixB[c];
-                r++;
-                c+=colB;
+    for(unsigned int i = 0; i < mat1->num_rows * mat1->num_cols; i+=mat1->num_cols){
+        for(unsigned int j = 0; j < mat2->num_cols; j++){
+            int sum = 0;
+            unsigned int row = i, col = j;
+            while(row < i + mat1->num_cols && col < mat2->num_rows * mat2->num_cols){
+                sum += mat1->values[row] * mat2->values[col];
+                row++;
+                col+=mat2->num_cols;
             }
 
-            pArr[index++] = sum;
+            values[index++] = sum;
         }
     }
 
-    return product;
+    return copy_matrix(mat1->num_rows, mat2->num_cols, values);
 }
 
 
 matrix_sf* transpose_mat_sf(const matrix_sf *mat) {
-    matrix_sf *trans = malloc(sizeof(matrix_sf) + mat->num_rows * mat->num_cols * sizeof(int));
+    int values[mat->num_rows * mat->num_cols];
 
-    trans->name = '^';
-    trans->num_rows = mat->num_cols;
-    trans->num_cols = mat->num_rows;
+    unsigned int index = 0;
 
-    int *tArr = trans->values, size = mat->num_rows * mat->num_cols, index = 0;
+    for(unsigned int i = 0; i < mat->num_cols; i++)
+        for(unsigned int j = i; j < mat->num_rows * mat->num_cols; j+=mat->num_cols)
+            values[index++] = mat->values[j];
 
-    const int *cArr = mat->values, col = mat->num_cols;
-
-    for(int i = 0; i < col; i++){
-        for(int j = i; j < size; j+=col){
-            tArr[index++] = cArr[j];
-        }
-    }
-
-    return trans;
+    return copy_matrix(mat->num_cols, mat->num_rows, values);
 }
 
 
@@ -351,8 +321,7 @@ matrix_sf *execute_script_sf(char *filename) {
     return sol;
 }
 
-// This is a utility function used during testing. Feel free to adapt the code to implement some of
-// the assignment. Feel equally free to ignore it.
+
 matrix_sf *copy_matrix(unsigned int num_rows, unsigned int num_cols, int values[]) {
     matrix_sf *m = malloc(sizeof(matrix_sf)+num_rows*num_cols*sizeof(int));
     m->name = '?';
@@ -362,8 +331,7 @@ matrix_sf *copy_matrix(unsigned int num_rows, unsigned int num_cols, int values[
     return m;
 }
 
-// Don't touch this function. It's used by the testing framework.
-// It's been left here in case it helps you debug and test your code.
+
 void print_matrix_sf(matrix_sf *mat) {
     assert(mat != NULL);
     assert(mat->num_rows <= 1000);
