@@ -93,36 +93,27 @@ void expect_matrices_equal(matrix_sf *actual, unsigned int num_rows, unsigned in
 }
 
 bst_sf* build_bst() {
-    matrix_sf *A = copy_matrix(3, 5, (int[]){-4, 18, 6, 7, 10, -14, 29, 8, 21, -99, 0, 7, 5, 2, -9});
-    A->name = 'A';
-    matrix_sf *B = copy_matrix(3, 5, (int[]){10, 9, -2, -33, 22, 44, 10, 12, 72, 52, -88, 17, 16, 14, -9});
-    B->name = 'B';
-    matrix_sf *C = copy_matrix(1, 4, (int[]){-123, 47, -4, 140});  
-    C->name = 'C';
-    matrix_sf *D = copy_matrix(1, 4, (int[]){-16, 122, 135, 107});
-    D->name = 'D';
-    matrix_sf *E = copy_matrix(6, 4, (int[]){83, -22, 56, -1, 97, 94, 135, -10, 84, 40, -83, -4, 79, 28, 52, -101, 138, 146, 99, 0, -23, -73, -39, -47});
-    E->name = 'E';
-    matrix_sf *F = copy_matrix(4, 7, (int[]){-77, -20, 111, -2, 41, 117, 118, 21, -29, -45, 135, 98, 54, 131, 54, 1, 80, 143, -127, 148, 114, -81, 87, -33, -2, -6, 115, 59});
-    F->name = 'F';
-    matrix_sf *G = copy_matrix(7, 1, (int[]){-38, 4, 46, -14, -102, -72, -27});
-    G->name = 'G';
-    matrix_sf *H = copy_matrix(1, 5, (int[]){52, 65, -94, -73, -48});
-    H->name = 'H';
-    matrix_sf *I = copy_matrix(4, 4, (int[]){-7, 78, -87, -113, -144, -94, 22, -75, -137, -130, -113, -106, 85, -120, 50, 55});
-    I->name = 'I';
-    matrix_sf *J = copy_matrix(6, 3, (int[]){121, -1, 128, 78, -138, 138, -61, 51, -35, -84, 125, -83, -78, 138, 2, 81, -5, -36});
-    J->name = 'J';
-    bst_sf*Anode = create_bst_node(A, sizeof(bst_sf), NULL, NULL);
-    bst_sf* Cnode = create_bst_node(C, sizeof(bst_sf), NULL, NULL);
-    bst_sf* Hnode = create_bst_node(H, sizeof(bst_sf), NULL, NULL);
-    bst_sf* Jnode = create_bst_node(J, sizeof(bst_sf), NULL, NULL);
-    bst_sf* Bnode = create_bst_node(B, sizeof(bst_sf), Anode, Cnode);
-    bst_sf* Fnode = create_bst_node(F, sizeof(bst_sf), NULL, NULL);
-    bst_sf* Inode = create_bst_node(I, sizeof(bst_sf), Hnode, Jnode);
-    bst_sf* Dnode = create_bst_node(D, sizeof(bst_sf), Bnode, NULL);
-    bst_sf* Gnode = create_bst_node(G, sizeof(bst_sf), Fnode, Inode);
-    bst_sf* Enode = create_bst_node(E, sizeof(bst_sf), Dnode, Gnode);
+    matrix_sf *A = copy_matrix('A', 3, 5, (int[]){-4, 18, 6, 7, 10, -14, 29, 8, 21, -99, 0, 7, 5, 2, -9}), 
+            *B = copy_matrix('B', 3, 5, (int[]){10, 9, -2, -33, 22, 44, 10, 12, 72, 52, -88, 17, 16, 14, -9}),
+            *C = copy_matrix('C', 1, 4, (int[]){-123, 47, -4, 140}),
+            *D = copy_matrix('D', 1, 4, (int[]){-16, 122, 135, 107}),
+            *E = copy_matrix('E', 6, 4, (int[]){83, -22, 56, -1, 97, 94, 135, -10, 84, 40, -83, -4, 79, 28, 52, -101, 138, 146, 99, 0, -23, -73, -39, -47}),
+            *F = copy_matrix('F', 4, 7, (int[]){-77, -20, 111, -2, 41, 117, 118, 21, -29, -45, 135, 98, 54, 131, 54, 1, 80, 143, -127, 148, 114, -81, 87, -33, -2, -6, 115, 59}),
+            *G = copy_matrix('G', 7, 1, (int[]){-38, 4, 46, -14, -102, -72, -27}),
+            *H = copy_matrix('H', 1, 5, (int[]){52, 65, -94, -73, -48}),
+            *I = copy_matrix('I', 4, 4, (int[]){-7, 78, -87, -113, -144, -94, 22, -75, -137, -130, -113, -106, 85, -120, 50, 55}),
+            *J = copy_matrix('J', 6, 3, (int[]){121, -1, 128, 78, -138, 138, -61, 51, -35, -84, 125, -83, -78, 138, 2, 81, -5, -36});
+    
+    bst_sf*Anode = create_bst_node(A, sizeof(bst_sf), NULL, NULL), *Cnode = create_bst_node(C, sizeof(bst_sf), NULL, NULL),
+            *Hnode = create_bst_node(H, sizeof(bst_sf), NULL, NULL), 
+            *Jnode = create_bst_node(J, sizeof(bst_sf), NULL, NULL),
+            *Bnode = create_bst_node(B, sizeof(bst_sf), Anode, Cnode),
+            *Fnode = create_bst_node(F, sizeof(bst_sf), NULL, NULL),
+            *Inode = create_bst_node(I, sizeof(bst_sf), Hnode, Jnode),
+            *Dnode = create_bst_node(D, sizeof(bst_sf), Bnode, NULL),
+            *Gnode = create_bst_node(G, sizeof(bst_sf), Fnode, Inode),
+            *Enode = create_bst_node(E, sizeof(bst_sf), Dnode, Gnode);
+
     return Enode;
 }
 
@@ -144,9 +135,9 @@ TestSuite(base_execute_valgrind, .timeout=TEST_TIMEOUT, .disabled=false);
 // 1. call function to check for correctness
 // 2. call function in a main() to check for memory errors
 Test(base_operator_return, add01, .description="Add 2 3x5 matrices") {
-    matrix_sf *A = copy_matrix(3, 5, (int[]){-4, 18, 6, 7, 10, -14, 29, 8, 21, -99, 0, 7, 5, 2, -9});
-    matrix_sf *B = copy_matrix(3, 5, (int[]){10, 9, -2, -33, 22, 44, 10, 12, 72, 52, -88, 17, 16, 14, -9});
-    matrix_sf *C = add_mats_sf(A, B);
+    matrix_sf *A = copy_matrix('A', 3, 5, (int[]){-4, 18, 6, 7, 10, -14, 29, 8, 21, -99, 0, 7, 5, 2, -9}),
+            *B = copy_matrix('B', 3, 5, (int[]){10, 9, -2, -33, 22, 44, 10, 12, 72, 52, -88, 17, 16, 14, -9}),
+            *C = add_mats_sf(A, B);
     expect_matrices_equal(C, 3, 5, (int[]){6, 27, 4, -26, 32, 30, 39, 20, 93, -47, -88, 24, 21, 16, -18});
     free(A);
     free(B);
@@ -155,9 +146,9 @@ Test(base_operator_return, add01, .description="Add 2 3x5 matrices") {
 Test(base_operator_valgrind, add01) { expect_no_valgrind_errors(run_with_valgrind("add01")); }
 
 Test(base_operator_return, add02, .description="Add 2 1x4 matrices") {
-    matrix_sf *Q = copy_matrix(1, 4, (int[]){-123, 47, -4, 140});  
-    matrix_sf *G = copy_matrix(1, 4, (int[]){-16, 122, 135, 107});
-    matrix_sf *Z = add_mats_sf(Q, G);
+    matrix_sf *Q = copy_matrix('Q', 1, 4, (int[]){-123, 47, -4, 140}),
+            *G = copy_matrix('G', 1, 4, (int[]){-16, 122, 135, 107}),
+            *Z = add_mats_sf(Q, G);
     expect_matrices_equal(Z, 1, 4, (int[]){-139, 169, 131, 247});
     free(Q);
     free(G);
@@ -166,9 +157,9 @@ Test(base_operator_return, add02, .description="Add 2 1x4 matrices") {
 Test(base_operator_valgrind, add02) { expect_no_valgrind_errors(run_with_valgrind("add02")); }
 
 Test(base_operator_return, mult01, .description="Multiply 2 matrices") {
-    matrix_sf *G = copy_matrix(6, 4, (int[]){83, -22, 56, -1, 97, 94, 135, -10, 84, 40, -83, -4, 79, 28, 52, -101, 138, 146, 99, 0, -23, -73, -39, -47});
-    matrix_sf *D = copy_matrix(4, 7, (int[]){-77, -20, 111, -2, 41, 117, 118, 21, -29, -45, 135, 98, 54, 131, 54, 1, 80, 143, -127, 148, 114, -81, 87, -33, -2, -6, 115, 59});
-    matrix_sf *Z = mult_mats_sf(G, D);
+    matrix_sf *G = copy_matrix('G', 6, 4, (int[]){83, -22, 56, -1, 97, 94, 135, -10, 84, 40, -83, -4, 79, 28, 52, -101, 138, 146, 99, 0, -23, -73, -39, -47}),
+            *D = copy_matrix('D', 4, 7, (int[]){-77, -20, 111, -2, 41, 117, 118, 21, -29, -45, 135, 98, 54, 131, 54, 1, 80, 143, -127, 148, 114, -81, 87, -33, -2, -6, 115, 59}),
+            *Z = mult_mats_sf(G, D);
     expect_matrices_equal(Z, 6, 7, (int[]){-3748, -1053, 14716, 4874, -5859, 16696, 13237, 2605, -5401, 17667, 31821, -3896, 35255, 38560, -9786, -3271, 1016, -6629, 17929, -756, 5454, 5494, -11127, 15002, 11260, -15, 6836, 12959, -2214, -6895, 16668, 33591, 7393, 38682, 46696, 1939, -1551, -837, -15292, -2862, -17810, -19496});
     free(G);
     free(D);
@@ -177,9 +168,9 @@ Test(base_operator_return, mult01, .description="Multiply 2 matrices") {
 Test(base_operator_valgrind, mult01) { expect_no_valgrind_errors(run_with_valgrind("mult01")); }
 
 Test(base_operator_return, mult02, .description="Multiply 2 matrices") {
-    matrix_sf *U = copy_matrix(7, 1, (int[]){-38, 4, 46, -14, -102, -72, -27});
-    matrix_sf *N = copy_matrix(1, 5, (int[]){52, 65, -94, -73, -48});
-    matrix_sf *Z = mult_mats_sf(U, N);
+    matrix_sf *U = copy_matrix('U', 7, 1, (int[]){-38, 4, 46, -14, -102, -72, -27}),
+        *N = copy_matrix('N', 1, 5, (int[]){52, 65, -94, -73, -48}),
+        *Z = mult_mats_sf(U, N);
     expect_matrices_equal(Z, 7, 5, (int[]){-1976, -2470, 3572, 2774, 1824, 208, 260, -376, -292, -192, 2392, 2990, -4324, -3358, -2208, -728, -910, 1316, 1022, 672, -5304, -6630, 9588, 7446, 4896, -3744, -4680, 6768, 5256, 3456, -1404, -1755, 2538, 1971, 1296});
     free(U);
     free(N);
@@ -188,8 +179,8 @@ Test(base_operator_return, mult02, .description="Multiply 2 matrices") {
 Test(base_operator_valgrind, mult02) { expect_no_valgrind_errors(run_with_valgrind("mult02")); }
 
 Test(base_operator_return, trans01, .description="Transpose a 4x4 matrix") {
-    matrix_sf *M = copy_matrix(4, 4, (int[]){-7, 78, -87, -113, -144, -94, 22, -75, -137, -130, -113, -106, 85, -120, 50, 55});
-    matrix_sf *G = transpose_mat_sf(M);
+    matrix_sf *M = copy_matrix('M', 4, 4, (int[]){-7, 78, -87, -113, -144, -94, 22, -75, -137, -130, -113, -106, 85, -120, 50, 55}),
+            *G = transpose_mat_sf(M);
     expect_matrices_equal(G, 4, 4, (int[]){-7, -144, -137, 85, 78, -94, -130, -120, -87, 22, -113, 50, -113, -75, -106, 55});
     free(M);
     free(G);
@@ -197,14 +188,28 @@ Test(base_operator_return, trans01, .description="Transpose a 4x4 matrix") {
 Test(base_operator_valgrind, trans01) { expect_no_valgrind_errors(run_with_valgrind("trans01")); }
 
 Test(base_operator_return, trans02, .description="Transpose a 6x3 matrix") {
-    matrix_sf *X = copy_matrix(6, 3, (int[]){121, -1, 128, 78, -138, 138, -61, 51, -35, -84, 125, -83, -78, 138, 2, 81, -5, -36});
-    matrix_sf *G = transpose_mat_sf(X);
+    matrix_sf *X = copy_matrix('X', 6, 3, (int[]){121, -1, 128, 78, -138, 138, -61, 51, -35, -84, 125, -83, -78, 138, 2, 81, -5, -36}),
+            *G = transpose_mat_sf(X);
     expect_matrices_equal(G, 3, 6, (int[]){121, 78, -61, -84, -78, 81, -1, -138, 51, 125, 138, -5, 128, 138, -35, -83, 2, -36});
     free(X);
     free(G);
 }
 Test(base_operator_valgrind, trans02) { expect_no_valgrind_errors(run_with_valgrind("trans02")); }
 
+bst_sf *insert_helper(char *names, matrix_sf **matrices){
+    bst_sf *root = NULL;
+    for (size_t i = 0; i < strlen(names); i++) {
+        matrices[i] = malloc(sizeof(matrix_sf));
+        matrices[i]->name = names[i];
+        root = insert_bst_sf(matrices[i], root);
+    }
+    return root;
+}
+
+void free_matrices(matrix_sf **matrices, size_t len){
+    for (size_t i = 0; i < len; i++)
+        free(matrices[i]);
+}
 
 /* insert_bst_sf() tests */
 void inorder_sf(bst_sf *root, char *output) {
@@ -217,128 +222,78 @@ void inorder_sf(bst_sf *root, char *output) {
 int compare_chars_sf(const void* a, const void* b) { return (*(char*)a - *(char*)b); }
 void sort_string_sf(char* str) { qsort(str, strlen(str), sizeof(char), compare_chars_sf); }
 
-Test(base_insert_bst, insert_bst01, .description="Test if insert_bst_sf creates a valid BST.") {
-    bst_sf *root = NULL;
-    char names[] = "HBZ";
-    matrix_sf *mats[strlen(names)];
-    for (size_t i = 0; i < strlen(names); i++) {
-        mats[i] = malloc(sizeof(matrix_sf));
-        mats[i]->name = names[i];
-        root = insert_bst_sf(mats[i], root);
-    }
+void check_insertion(bst_sf *root, char *names){
     char output[27] = {0};
     inorder_sf(root, output);
     sort_string_sf(names);
     cr_expect_arr_eq(output, names, strlen(names), "BST does not store the nodes in sorted order.");
-    for (size_t i = 0; i < strlen(names); i++)
-        free(mats[i]);
+}
+
+Test(base_insert_bst, insert_bst01, .description="Test if insert_bst_sf creates a valid BST.") {
+    char names[] = "HBZ";
+    matrix_sf *mats[strlen(names)];
+    bst_sf *root = insert_helper(names, mats);
+    check_insertion(root, names);
+    free_matrices(mats, strlen(names));
     // Note: test does not deallocate memory of BST.    
 }
 
 Test(base_insert_bst, insert_bst02, .description="Test if insert_bst_sf creates a valid BST.") {
-    bst_sf *root = NULL;
     char names[] = "HABETZ";
     matrix_sf *mats[strlen(names)];
-    for (size_t i = 0; i < strlen(names); i++) {
-        mats[i] = malloc(sizeof(matrix_sf));
-        mats[i]->name = names[i];
-        root = insert_bst_sf(mats[i], root);
-    }
-    char output[27] = {0};
-    inorder_sf(root, output);
-    sort_string_sf(names);
-    cr_expect_arr_eq(output, names, strlen(names), "BST does not store the nodes in sorted order.");
-    for (size_t i = 0; i < strlen(names); i++)
-        free(mats[i]);
+    bst_sf *root = insert_helper(names, mats);
+    check_insertion(root, names);
+    free_matrices(mats, strlen(names));
     // Note: test does not deallocate memory of BST.    
 }
 
 Test(base_insert_bst, insert_bst03, .description="Test if insert_bst_sf creates a valid BST.") {
-    bst_sf *root = NULL;
     char names[] = "GTHRNBVCUJELMOPSQZA";
     matrix_sf *mats[strlen(names)];
-    for (size_t i = 0; i < strlen(names); i++) {
-        mats[i] = malloc(sizeof(matrix_sf));
-        mats[i]->name = names[i];
-        root = insert_bst_sf(mats[i], root);
-    }
-    char output[27] = {0};
-    inorder_sf(root, output);
-    sort_string_sf(names);
-    cr_expect_arr_eq(output, names, strlen(names), "BST does not store the nodes in sorted order.");
-    for (size_t i = 0; i < strlen(names); i++)
-        free(mats[i]);
+    bst_sf *root = insert_helper(names, mats);
+    check_insertion(root, names);
+    free_matrices(mats, strlen(names));
     // Note: test does not deallocate memory of BST.    
 }
 
 
 /* find_bst_sf() tests */
-Test(base_find_bst, search_bst01, .description="Test if find_bst returns the correct matrix.") {
-    bst_sf *root = NULL;
-    char names[] = "HABETZ";
-    matrix_sf *mats[strlen(names)];
-    for (size_t i = 0; i < strlen(names); i++) {
-        mats[i] = malloc(sizeof(matrix_sf));
-        mats[i]->name = names[i];
-        root = insert_bst_sf(mats[i], root);
-    }
-    char *search_names = "BTZ";
+void check_search(bst_sf *root, char *names, char *search_names){
     matrix_sf *mat;
     for (size_t i = 0; i < strlen(search_names); i++) {
         mat = find_bst_sf(search_names[i], root);
-        cr_expect_eq(mat->name, search_names[i], 
-            "The returned matrix did not have the expected name. Actual: %c, Expected: %c", mat->name, search_names[i]);
-    } 
-    
-    for (size_t i = 0; i < strlen(names); i++)
-        free(mats[i]);
-    // Note: test does not deallocate memory of BST.  
-}
-
-Test(base_find_bst, search_bst02, .description="Test if find_bst returns the correct matrix.") {
-    bst_sf *root = NULL;
-    char names[] = "GTHRNBVCUJELMOPSQZA";
-    matrix_sf *mats[strlen(names)];
-    for (size_t i = 0; i < strlen(names); i++) {
-        mats[i] = malloc(sizeof(matrix_sf));
-        mats[i]->name = names[i];
-        root = insert_bst_sf(mats[i], root);
-    }
-    char *search_names = "ERPQT";
-    matrix_sf *mat;
-    for (size_t i = 0; i < strlen(search_names); i++) {
-        mat = find_bst_sf(search_names[i], root);
-        cr_expect_eq(mat->name, search_names[i], 
-            "The returned matrix did not have the expected name. Actual: %c, Expected: %c", mat->name, search_names[i]);
-    } 
-    
-    for (size_t i = 0; i < strlen(names); i++)
-        free(mats[i]);
-    // Note: test does not deallocate memory of BST.  
-}
-
-Test(base_find_bst, search_bst03, .description="Test if find_bst returns the correct matrix.") {
-    bst_sf *root = NULL;
-    char names[] = "GTHRNBVCUJELMOPSQZA";
-    matrix_sf *mats[strlen(names)];
-    for (size_t i = 0; i < strlen(names); i++) {
-        mats[i] = malloc(sizeof(matrix_sf));
-        mats[i]->name = names[i];
-        root = insert_bst_sf(mats[i], root);
-    }
-    char *search_names = "AZXHODJAE";
-    matrix_sf *mat;
-    for (size_t i = 0; i < strlen(search_names); i++) {
-        mat = find_bst_sf(search_names[i], root);
-        if (search_names[i] == 'D' || search_names[i] == 'X')
+        if(!strchr(names, search_names[i]))
             cr_expect_eq(mat, NULL, "The return value should have been NULL, but it was %p", mat);
         else
             cr_expect_eq(mat->name, search_names[i], 
                 "The returned matrix did not have the expected name. Actual: %c, Expected: %c", mat->name, search_names[i]);
     } 
-    
-    for (size_t i = 0; i < strlen(names); i++)
-        free(mats[i]);
+}
+
+Test(base_find_bst, search_bst01, .description="Test if find_bst returns the correct matrix.") {
+    char names[] = "HABETZ";
+    matrix_sf *mats[strlen(names)];
+    bst_sf *root = insert_helper(names, mats);
+    check_search(root, names, "BTZ");
+    free_matrices(mats, strlen(names));
+    // Note: test does not deallocate memory of BST.  
+}
+
+Test(base_find_bst, search_bst02, .description="Test if find_bst returns the correct matrix.") {
+    char names[] = "GTHRNBVCUJELMOPSQZA";
+    matrix_sf *mats[strlen(names)];
+    bst_sf *root = insert_helper(names, mats);
+    check_search(root, names, "ERPQT");
+    free_matrices(mats, strlen(names));
+    // Note: test does not deallocate memory of BST.  
+}
+
+Test(base_find_bst, search_bst03, .description="Test if find_bst returns the correct matrix.") {
+    char names[] = "GTHRNBVCUJELMOPSQZA";
+    matrix_sf *mats[strlen(names)];
+    bst_sf *root = insert_helper(names, mats);
+    check_search(root, names, "AZXHODJAE");
+    free_matrices(mats, strlen(names));
     // Note: test does not deallocate memory of BST.  
 }
 
