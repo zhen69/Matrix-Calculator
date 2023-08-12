@@ -79,7 +79,7 @@ matrix_sf* add_mats_sf(const matrix_sf *mat1, const matrix_sf *mat2) {
     for(unsigned int i = 0; i < mat1->num_rows * mat1->num_cols; i++)
         values[i] = mat1->values[i] + mat2->values[i];
         
-    return copy_matrix(mat1->num_rows, mat2->num_cols, values);
+    return copy_matrix('?', mat1->num_rows, mat2->num_cols, values);
 }
 
 
@@ -102,7 +102,7 @@ matrix_sf* mult_mats_sf(const matrix_sf *mat1, const matrix_sf *mat2) {
         }
     }
 
-    return copy_matrix(mat1->num_rows, mat2->num_cols, values);
+    return copy_matrix('?', mat1->num_rows, mat2->num_cols, values);
 }
 
 
@@ -115,7 +115,7 @@ matrix_sf* transpose_mat_sf(const matrix_sf *mat) {
         for(unsigned int j = i; j < mat->num_rows * mat->num_cols; j+=mat->num_cols)
             values[index++] = mat->values[j];
 
-    return copy_matrix(mat->num_cols, mat->num_rows, values);
+    return copy_matrix('?', mat->num_cols, mat->num_rows, values);
 }
 
 
@@ -308,8 +308,7 @@ matrix_sf *execute_script_sf(char *filename) {
             mPtr = evaluate_expr_sf(str[0], equ + 1, root);
             root = insert_bst_sf(mPtr, root);
 
-            sol = copy_matrix(mPtr->num_rows, mPtr->num_cols, mPtr->values);
-            sol->name = mPtr->name;
+            sol = copy_matrix(mPtr->name, mPtr->num_rows, mPtr->num_cols, mPtr->values);
         }
         
     }
@@ -322,13 +321,13 @@ matrix_sf *execute_script_sf(char *filename) {
 }
 
 
-matrix_sf *copy_matrix(unsigned int num_rows, unsigned int num_cols, int values[]) {
-    matrix_sf *m = malloc(sizeof(matrix_sf)+num_rows*num_cols*sizeof(int));
-    m->name = '?';
-    m->num_rows = num_rows;
-    m->num_cols = num_cols;
-    memcpy(m->values, values, num_rows*num_cols*sizeof(int));
-    return m;
+matrix_sf *copy_matrix(char name, unsigned int num_rows, unsigned int num_cols, int values[]){
+    matrix_sf *matrix = malloc(sizeof(matrix_sf)+num_rows*num_cols*sizeof(int));
+    matrix->name = name;
+    matrix->num_rows = num_rows;
+    matrix->num_cols = num_cols;
+    memcpy(matrix->values, values, num_rows*num_cols*sizeof(int));
+    return matrix;
 }
 
 

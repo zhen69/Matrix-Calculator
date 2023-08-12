@@ -35,9 +35,7 @@ matrix_sf* execute_script_sf(char *filename);
 matrix_sf* evaluate_expr_sf(char name, char *expr, bst_sf *root); 
 char* infix2postfix_sf(char *infix); 
 
-// This is a utility function you may use if you want. See hw7.c.
-matrix_sf *copy_matrix(unsigned int num_rows, unsigned int num_cols, int values[]);
-// Utility function used in testing. Don't mess with it.
+matrix_sf *copy_matrix(char name, unsigned int num_rows, unsigned int num_cols, int values[]);
 void print_matrix_sf(matrix_sf *mat);
 
 #endif // __MATRIX_SF
