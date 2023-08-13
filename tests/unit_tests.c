@@ -104,15 +104,11 @@ bst_sf* build_bst() {
             *I = copy_matrix('I', 4, 4, (int[]){-7, 78, -87, -113, -144, -94, 22, -75, -137, -130, -113, -106, 85, -120, 50, 55}),
             *J = copy_matrix('J', 6, 3, (int[]){121, -1, 128, 78, -138, 138, -61, 51, -35, -84, 125, -83, -78, 138, 2, 81, -5, -36});
     
-    bst_sf*Anode = create_bst_node(A, sizeof(bst_sf), NULL, NULL), *Cnode = create_bst_node(C, sizeof(bst_sf), NULL, NULL),
-            *Hnode = create_bst_node(H, sizeof(bst_sf), NULL, NULL), 
-            *Jnode = create_bst_node(J, sizeof(bst_sf), NULL, NULL),
-            *Bnode = create_bst_node(B, sizeof(bst_sf), Anode, Cnode),
-            *Fnode = create_bst_node(F, sizeof(bst_sf), NULL, NULL),
-            *Inode = create_bst_node(I, sizeof(bst_sf), Hnode, Jnode),
-            *Dnode = create_bst_node(D, sizeof(bst_sf), Bnode, NULL),
-            *Gnode = create_bst_node(G, sizeof(bst_sf), Fnode, Inode),
-            *Enode = create_bst_node(E, sizeof(bst_sf), Dnode, Gnode);
+    bst_sf*Anode = create_bst_node(A, NULL, NULL), *Cnode = create_bst_node(C, NULL, NULL),
+            *Hnode = create_bst_node(H, NULL, NULL), *Jnode = create_bst_node(J, NULL, NULL),
+            *Bnode = create_bst_node(B, Anode, Cnode), *Fnode = create_bst_node(F, NULL, NULL),
+            *Inode = create_bst_node(I, Hnode, Jnode), *Dnode = create_bst_node(D, Bnode, NULL),
+            *Gnode = create_bst_node(G, Fnode, Inode), *Enode = create_bst_node(E, Dnode, Gnode);
 
     return Enode;
 }

@@ -10,6 +10,7 @@
 #ifndef __MATRIX_SF
 #define __MATRIX_SF
 
+//Represents a matrix object.
 typedef struct {
     char name;
     unsigned int num_rows;
@@ -17,13 +18,18 @@ typedef struct {
     int values[]; 
 } matrix_sf;
 
+
+//Represents a node of the Binary Search Tree.
 typedef struct bst_sf {
     matrix_sf *mat;
     struct bst_sf *left_child;
     struct bst_sf *right_child;
 } bst_sf;
 
-bst_sf* create_bst_node(matrix_sf *mat, int size, bst_sf* left_child, bst_sf* right_child);
+
+//functions declarations
+
+bst_sf* create_bst_node(matrix_sf *mat, bst_sf* left_child, bst_sf* right_child);
 bst_sf* insert_bst_sf(matrix_sf *mat, bst_sf *root); 
 matrix_sf* find_bst_sf(char name, bst_sf *root); 
 void free_bst_sf(bst_sf *root); 
