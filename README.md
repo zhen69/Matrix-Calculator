@@ -1,11 +1,8 @@
 # Matrix-Calculator
-Programmed a calculator that would compute a series of matrix operations, such as addition, multiplication, and transposition.
+Programmed a calculator that computes matrix expressions such as addition, multiplication, and transposition.
 
 <h2>Description</h2>
-When working with matrices, students often have to spend lots of time evaluating the entire expression. Hence, to help students with their
-assignments, this program permits users to enter the matrix problems in a text file, where it would be scanned and evaluated by the code. This program
-could solve order operations involving addition, multiplication, and transposition. Every time the program creates a new matrix or solves an expression, 
-it adds the result to a matrix binary search tree. When the program reaches the end of the file, it would print out the result of the latest resolved expression.
+When working with matrices, students often have to spend lots of time evaluating the entire expression. Hence, to help students with their assignments, this program permits users to enter the matrix problems in a text file, which would be scanned and evaluated. This program could solve order operations involving addition, multiplication, and transposition. Every time the program creates a new matrix or solves an expression, it adds the result to a matrix binary search tree. The program prints out the solution of the latest expression when it reaches the end of the file.
 <br><br>
 <b>Notes/Warnings:</b>
 <ul>
@@ -50,7 +47,6 @@ it adds the result to a matrix binary search tree. When the program reaches the 
 In the terminal, type <code>make</code> and <code>make test</code> to run the test cases written in unit_tests.c. Individuals may use the existing code as an example and write their test cases.<br><br>
 
 <b>Note:</b> To run your test cases, include your input file in tests.in and the expected output in tests.out.exp.
-
 
 <h4>Run with GCC: </h4>
 In the terminal, type <code>gcc [source file]</code>. By default, this will produce an executable file named a.out (Linux) or a.exe (Windows). If you want the executable file to have a custom name, type <code>gcc -o [name of the executable] [source file]</code>. After compiling the program, run the executable file by entering <code>./[executable file] [input file]</code>.
