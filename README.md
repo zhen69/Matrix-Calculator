@@ -52,7 +52,7 @@ In the terminal, type <code>make</code> and <code>make test</code> to run the te
 In the terminal, type <code>gcc [source file]</code>. By default, this will produce an executable file named a.out (Linux) or a.exe (Windows). If you want the executable file to have a custom name, type <code>gcc -o [name of the executable] [source file]</code>. After compiling the program, run the executable file by entering <code>./[executable file] [input file]</code>.
 
 <h2>Author</h2>
-<strong>Zhen Wei Liao</strong> - <a href="www.linkedin.com/in/zhenwei-liao-148baa273">@Zhen</a><br>
+<strong>Zhen Wei Liao</strong> - <a href="https://www.linkedin.com/in/zhenwei-liao-148baa273">@Zhen</a><br>
 Builts the main program and parts of MatrixCalc.h/unit_test.c.
 
 <h3>Contributor:</h3>
