@@ -6,10 +6,7 @@ Uncomment the main function if running the program manually.
 
 int main(int argc, char *argv[]) {    
     (void)argc;
-    char script[200];
-    sprintf(script, "tests.in/%s.txt", argv[1]);
-    assert(access(script, F_OK) == 0);
-    matrix_sf *mat = execute_script_sf(script);
+    matrix_sf *mat = execute_script_sf(argv[1]);
     print_matrix_sf(mat);
     fflush(stdout);
     free(mat);
@@ -19,7 +16,7 @@ int main(int argc, char *argv[]) {
 
 /**
  * @brief
- *      Creates a BST node based on the given parameters.
+ *      Creates a matrix BST node based on the given parameters.
  * 
  * @param mat 
  *      Pointer pointing to a valid matrix object (row-major). 
@@ -29,7 +26,7 @@ int main(int argc, char *argv[]) {
  *      Right child of the current node.
  * 
  * @return
- *      Pointer to the created BST node.
+ *      Pointer to the created matrix BST node.
  */
 bst_sf* create_bst_node(matrix_sf *mat, bst_sf* left_child, bst_sf* right_child){
     bst_sf *newNode = malloc(sizeof(bst_sf));
@@ -42,15 +39,15 @@ bst_sf* create_bst_node(matrix_sf *mat, bst_sf* left_child, bst_sf* right_child)
 
 /**
  * @brief 
- *      Inserts a matrix object into the BST pointed by root.
+ *      Inserts a matrix object into the matrix BST pointed by root.
  * 
  * @param mat
  *      Pointer to a valid matrix object.
  * @param root
- *      Pointer to the root of a BST object.
+ *      Pointer to the root of a matrix BST object.
  * 
  * @return
- *      Pointer to the root of the input BST object.
+ *      Pointer to the root of the input matrix BST object.
  */
 bst_sf* insert_bst_sf(matrix_sf *mat, bst_sf *root) {
     if(!root){
@@ -69,12 +66,12 @@ bst_sf* insert_bst_sf(matrix_sf *mat, bst_sf *root) {
 
 /**
  * @brief 
- *      Searches for a BST node with the specified matrix name.
+ *      Searches for a matrix BST node with the specified matrix name.
  * 
  * @param name
  *      Name of the wanted matrix.
  * @param root 
- *      Pointer to the root of the BST object.
+ *      Pointer to the root of the matrix BST object.
  * 
  * @return
  *      Pointer to the wanted matrix. 
@@ -97,10 +94,10 @@ matrix_sf* find_bst_sf(char name, bst_sf *root) {
 
 /**
  * @brief 
- *      Deallocates memory of the entire BST object.
+ *      Deallocates memory of the entire matrix BST object.
  * 
  * @param root
- *      Pointer to the root of the BST object.
+ *      Pointer to the root of the matrix BST object.
  */
 void free_bst_sf(bst_sf *root) {
 
@@ -279,13 +276,13 @@ matrix_sf* create_matrix_sf(char name, const char *expr) {
 
 /**
  * @brief 
- *      Returns the precedence of the input matrix operation.
+ *      Returns the precedence of the input matrix operator.
  * 
  * @param oper
- *      Matrix operations (add(+), multiply(*), and transpose(')).
+ *      Matrix operators (add(+), multiply(*), and transpose(')).
  * 
  * @return
- *      Integer representing the precedence of the input operation oper.
+ *      Integer representing the precedence of the input operator oper.
  * 
  * @note
  *      Precedence from high to low: transpose > multiply > add.
@@ -306,7 +303,7 @@ int precedence(char oper){
 
 /**
  * @brief 
- *      Checks if the input operation oper is a valid matrix operation.
+ *      Checks if the input operator oper is a valid matrix operator.
  * 
  * @param oper
  *      Matrix operations (add(+), multiply(*), and transpose(')).
@@ -319,9 +316,19 @@ int isOperator(char oper){
 }
 
 
+/**
+ * @brief 
+ *      Converts the infix expression to postfix expression.
+ * 
+ * @param infix
+ *      String representing the infix matrix expression.
+ * 
+ * @return
+ *      Pointer to the postfix expression.
+ */
 char* infix2postfix_sf(char *infix) {
     int len = strlen(infix);
-    char *postfix = malloc(len + 2);
+    char *postfix = malloc(len + 2); //creates a string, representing the postfix expression.
     char stack[len + 1];
 
     int top = -1, i = 0, j = 0;
@@ -331,22 +338,28 @@ char* infix2postfix_sf(char *infix) {
             break;
         if(infix[i] == ' ' || infix[i] == '\t')
             continue;
-        else if(isalpha(infix[i]))
+        else if(isalpha(infix[i])) //push all matrix names in the postfix string.
             postfix[j++] = infix[i];
         else if(infix[i] == '(')
             stack[++top] = infix[i];
         else if(infix[i] == ')'){
+            //Unless the top element is '(', pop the stack and push it in the postfix string.
             while(top > -1 && stack[top] != '(')
                 postfix[j++] = stack[top--];
             top--;
         }
-        else if(isOperator(infix[i])){
+        else if(isOperator(infix[i])){ 
+            /*
+            If an operator is encountered, pop the stack and push it in the postfix string until
+            the top element of the stack has a lower precedence than the encountered operator.
+            */
             while(top > -1 && precedence(stack[top]) >= precedence(infix[i]))
                 postfix[j++] = stack[top--];
             stack[++top] = infix[i];
         }
     }
 
+    //pop the remainings of the stack and push it in the postfix string.
     while(top > -1)
         postfix[j++] = stack[top--];
     
@@ -356,22 +369,45 @@ char* infix2postfix_sf(char *infix) {
 }
 
 
+/**
+ * @brief 
+ *      Evaluates a matrix expression.
+ * 
+ * @param name
+ *      Name of the solution matrix.
+ * @param expr
+ *      Matrix expression.
+ * @param root
+ *      Pointer to the root of the matrix matrix matrix BST.
+ * 
+ * @return
+ *      Pointer to the solution matrix.
+ */
 matrix_sf* evaluate_expr_sf(char name, char *expr, bst_sf *root) {
     char *pExpr = infix2postfix_sf(expr);
     int len = strlen(pExpr), top = -1;
     matrix_sf *matStack[len + 2], *operand1 = NULL, *operand2 = NULL;
 
     for(int i = 0; i < len; i++){
-        if(isalpha(pExpr[i]) && top < len + 2)
+        if(isalpha(pExpr[i]) && top < len + 2) //find the corresponding matrix based on the indicated matrix name.
             matStack[++top] = find_bst_sf(pExpr[i], root);
         else if(isOperator(pExpr[i])){
+            
             if(pExpr[i] == '\''){
+                /*
+                pop the stack to obtain the operand, perform matrix transpose, push the transpose in the stack, 
+                and deallocate the operand if it's a sum, product or tranpose matrix.
+                */
                 operand1 = matStack[top--];
                 matStack[++top] = transpose_mat_sf(operand1);
                 if(operand1 && !isalpha(operand1->name))
                     free(operand1);
             }
             else{
+                /*
+                pop the stack to obtain the two operands, perform corresponding matrix operation, push the tresult matrix in the stack, 
+                and deallocate the two operands if they are a sum, product or tranpose matrix.
+                */
                 operand2 = matStack[top--];
                 operand1 = matStack[top--];
 
@@ -393,35 +429,47 @@ matrix_sf* evaluate_expr_sf(char name, char *expr, bst_sf *root) {
 }
 
 
+/**
+ * @brief 
+ *      Scans the text file and performs the indicated operations (create a matrix or evaluate a matrix expression).
+ * 
+ * @param filename 
+ *      String indicating the text file name.
+ * 
+ * @return
+ *      Pointer to the final solution after evaluating the text file.
+ */
 matrix_sf *execute_script_sf(char *filename) {
-    char *str = NULL;
+    char *expr = NULL;
     FILE *file = fopen(filename, "r");
     size_t max_line_size = MAX_LINE_LEN;
     matrix_sf *solution = NULL, *mPtr;
     bst_sf *root = NULL;
 
-    while(getline(&str, &max_line_size, file) != -1){
+    while(getline(&expr, &max_line_size, file) != -1){
         
-        char *equal_sign = strchr(str, '=');
+        char *equal_sign = strchr(expr, '=');
 
+        //skips all blank lines.
         if(!equal_sign)
             continue;
-            
-        if(strchr(str, '[')){
-            mPtr = create_matrix_sf(str[0], equal_sign + 1);
+
+        if(strchr(expr, '[')){ //identifies matrix creation
+            mPtr = create_matrix_sf(expr[0], equal_sign + 1);
             root = insert_bst_sf(mPtr, root);
         }
         else{
             if(solution)
                 free(solution);
-            mPtr = evaluate_expr_sf(str[0], equal_sign + 1, root);
+            //performs the indicated matrix expression and adds the result to the matrix BST.
+            mPtr = evaluate_expr_sf(expr[0], equal_sign + 1, root);
             root = insert_bst_sf(mPtr, root);
             solution = copy_matrix(mPtr->name, mPtr->num_rows, mPtr->num_cols, mPtr->values);
         }
         
     }
 
-    free(str);
+    free(expr);
     free_bst_sf(root);
     fclose(file);
 
