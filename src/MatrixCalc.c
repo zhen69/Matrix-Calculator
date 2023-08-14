@@ -1,3 +1,9 @@
+/**
+ * @file MatrixCalc.c
+ * @author Zhen Wei Liao
+ * @brief 
+ *      Programmed a calculator that would compute a series of matrix operations, such as addition, multiplication, and transposition.
+ */
 #include "MatrixCalc.h"
 
 /*
