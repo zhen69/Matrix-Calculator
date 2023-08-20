@@ -1,8 +1,10 @@
 /**
  * @file MatrixCalc.c
- * @author Zhen Wei Liao
+ * 
  * @brief 
  *      Programmed a calculator that would compute a series of matrix operations, such as addition, multiplication, and transposition.
+ *
+ * @author Zhen Wei Liao
  */
 #include "MatrixCalc.h"
 
@@ -164,9 +166,9 @@ matrix_sf* mult_mats_sf(const matrix_sf *mat1, const matrix_sf *mat2) {
     /*
     Since the matrix is in row-major format, we need to skip num_cols number of elements to get reach the next row.
     
-    The most outer loop visit each row of mat1.
+    The first outer loop visits each row of mat1.
 
-    The second outer loop visit each column of mat2.
+    The second outer loop visits each column of mat2.
     
     The inner while loop generates the elements of the product matrix. 
     
@@ -192,13 +194,13 @@ matrix_sf* mult_mats_sf(const matrix_sf *mat1, const matrix_sf *mat2) {
 
 /**
  * @brief 
- *      Generates the transpose of the input matrix.
+ *      Generates the transposition of the input matrix.
  * 
  * @param mat
  *      Pointer to a valid matrix object.
  *  
  * @return
- *      Pointer to the tranpose matrix.
+ *      Pointer to the transpose matrix.
  *      
  */
 matrix_sf* transpose_mat_sf(const matrix_sf *mat) {
@@ -230,7 +232,7 @@ matrix_sf* transpose_mat_sf(const matrix_sf *mat) {
  *      Input expr string must be in the following format: 
  *      [number of rows] [number of columns] [list of matrix elements]
  * @note
- *      Matrix elements must be enclosed with brackets "[]" and rows must be seperated by semicolons ";"
+ *      Matrix elements must be enclosed with brackets "[]" and rows must be separated by semicolons ";"
  */
 matrix_sf* create_matrix_sf(char name, const char *expr) {
 
@@ -248,7 +250,7 @@ matrix_sf* create_matrix_sf(char name, const char *expr) {
     
     matrix_element = strtok(matrix_element, " ");
 
-    //loop through the list and store the listed intergers as elements of the created martix
+    //loop through the list and store the listed integers as elements of the created matrix.
     while(i < row * col && matrix_element && matrix_element[0] != ']'){
         int len = strlen(matrix_element);
         char *semi = strchr(matrix_element, ';'); //checks if the current matrix_element string contains a semicolon.
@@ -357,7 +359,7 @@ char* infix2postfix_sf(char *infix) {
         else if(isOperator(infix[i])){ 
             /*
             If an operator is encountered, pop the stack and push it in the postfix string until
-            the top element of the stack has a lower precedence than the encountered operator.
+            the top element of the stack has lower precedence than the encountered operator.
             */
             while(top > -1 && precedence(stack[top]) >= precedence(infix[i]))
                 postfix[j++] = stack[top--];
@@ -365,7 +367,7 @@ char* infix2postfix_sf(char *infix) {
         }
     }
 
-    //pop the remainings of the stack and push it in the postfix string.
+    //pop the remains of the stack and push it in the postfix string.
     while(top > -1)
         postfix[j++] = stack[top--];
     
@@ -384,7 +386,7 @@ char* infix2postfix_sf(char *infix) {
  * @param expr
  *      Matrix expression.
  * @param root
- *      Pointer to the root of the matrix matrix matrix BST.
+ *      Pointer to the root of the matrix BST.
  * 
  * @return
  *      Pointer to the solution matrix.
@@ -402,7 +404,7 @@ matrix_sf* evaluate_expr_sf(char name, char *expr, bst_sf *root) {
             if(pExpr[i] == '\''){
                 /*
                 pop the stack to obtain the operand, perform matrix transpose, push the transpose in the stack, 
-                and deallocate the operand if it's a sum, product or tranpose matrix.
+                and deallocate the operand if it's a sum, product, or transpose matrix.
                 */
                 operand1 = matStack[top--];
                 matStack[++top] = transpose_mat_sf(operand1);
@@ -411,8 +413,8 @@ matrix_sf* evaluate_expr_sf(char name, char *expr, bst_sf *root) {
             }
             else{
                 /*
-                pop the stack to obtain the two operands, perform corresponding matrix operation, push the tresult matrix in the stack, 
-                and deallocate the two operands if they are a sum, product or tranpose matrix.
+                pop the stack to obtain the two operands, perform the corresponding matrix operation, push the result matrix in the stack, 
+                and deallocate the two operands if they are a sum, product, or transpose matrix.
                 */
                 operand2 = matStack[top--];
                 operand1 = matStack[top--];
@@ -449,7 +451,7 @@ matrix_sf *execute_script_sf(char *filename) {
     char *expr = NULL;
     FILE *file = fopen(filename, "r");
     size_t max_line_size = MAX_LINE_LEN;
-    matrix_sf *solution = NULL, *mPtr;
+    matrix_sf *solution = NULL, *matPtr;
     bst_sf *root = NULL;
 
     while(getline(&expr, &max_line_size, file) != -1){
@@ -461,16 +463,16 @@ matrix_sf *execute_script_sf(char *filename) {
             continue;
 
         if(strchr(expr, '[')){ //identifies matrix creation
-            mPtr = create_matrix_sf(expr[0], equal_sign + 1);
-            root = insert_bst_sf(mPtr, root);
+            matPtr = create_matrix_sf(expr[0], equal_sign + 1);
+            root = insert_bst_sf(matPtr, root);
         }
         else{
             if(solution)
                 free(solution);
             //performs the indicated matrix expression and adds the result to the matrix BST.
-            mPtr = evaluate_expr_sf(expr[0], equal_sign + 1, root);
-            root = insert_bst_sf(mPtr, root);
-            solution = copy_matrix(mPtr->name, mPtr->num_rows, mPtr->num_cols, mPtr->values);
+            matPtr = evaluate_expr_sf(expr[0], equal_sign + 1, root);
+            root = insert_bst_sf(matPtr, root);
+            solution = copy_matrix(matPtr->name, matPtr->num_rows, matPtr->num_cols, matPtr->values);
         }
         
     }
@@ -510,8 +512,8 @@ matrix_sf *copy_matrix(char name, unsigned int num_rows, unsigned int num_cols, 
 
 /**
  * @brief 
- *      Prints the input the matrix in the following format:
- *      [number of rows] [number of columns] [matrix elements enclosed with brackets and rows seperated by semicolons]
+ *      Prints the input matrix in the following format:
+ *      [number of rows] [number of columns] [matrix elements enclosed with brackets and rows separated by semicolons]
  * 
  * @param mat 
  *      Pointer to a valid matrix object.
@@ -530,7 +532,6 @@ void print_matrix_sf(matrix_sf *mat) {
         if (i < mat->num_rows*mat->num_cols-1){
             if(i % mat->num_cols  == mat->num_cols - 1)
                 printf(";");
-            
             printf(" ");
         }
         else
